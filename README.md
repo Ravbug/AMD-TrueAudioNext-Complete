@@ -3,7 +3,7 @@ AMD's TrueAudio NEXT, ready to compile in one self-contained unit.
 
 ## Platform support
 - Windows: ✅
-- macOS: ❌ (WIP)
+- macOS: ✅ (Intel)
 - Linux: ❌ (WIP)
 
 ## How to build
