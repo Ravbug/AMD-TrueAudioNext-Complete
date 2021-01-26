@@ -22,10 +22,16 @@ endif()
 #libraries
 find_package ( OPENMP REQUIRED )
 
+if(MSVC)
+  add_definitions(/MP)
+  add_definitions(/Qpar)
+endif()
 
 set(TAN_ROOT "${CMAKE_SOURCE_DIR}/TAN")
 set(OpenCL_INCLUDE_DIR "${TAN_ROOT}/thirdparty/OpenCL-Headers")
 set(DEFINE_AMD_OPENCL_EXTENSION ON CACHE INTERNAL "")
+
+add_subdirectory(fftw)
 
 add_subdirectory(TAN/tan/samples/proj/cmake/CLKernelPreprocessor cmake-CLKernelPreprocessor-bin)
 add_subdirectory(TAN/tan/tanlibrary/proj/cmake/amf cmake-amf-bin)
@@ -35,3 +41,5 @@ add_subdirectory(TAN/tan/tanlibrary/proj/cmake/clFFT cmake-clFFT-bin)
 
 # main
 add_subdirectory(TAN/tan/tanlibrary/proj/cmake/TAN cmake-TAN-bin)
+
+target_link_libraries(TrueAudioNext fftw3)
