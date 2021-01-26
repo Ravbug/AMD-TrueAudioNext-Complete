@@ -10,6 +10,4 @@ True Audio Next SDK Build Instructions.docx
 /tan/build/cmake/mac-gnumake
 /tan/build/cmake/vs2015
 /tan/build/cmake/vs2017
-/thirdparty/portaudio/*
-/thirdparty/OpenCL-Headers/*
 .DS_Store
