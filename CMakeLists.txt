@@ -24,13 +24,15 @@ add_subdirectory(fftw)
 set(OPENMP_STANDALONE_BUILD ON CACHE INTERNAL "")
 add_subdirectory(openmp)
 
+# TAN components
+add_subdirectory(TAN/tan/samples/proj/cmake/GPUUtilities cmake-GPUUtilities-bin)
 add_subdirectory(TAN/tan/samples/proj/cmake/CLKernelPreprocessor cmake-CLKernelPreprocessor-bin)
 add_subdirectory(TAN/tan/tanlibrary/proj/cmake/amf cmake-amf-bin)
 add_subdirectory(TAN/tan/tanlibrary/proj/cmake/Graal cmake-Graal-bin)
 add_subdirectory(TAN/tan/tanlibrary/proj/cmake/Graal2 cmake-Graal2-bin)
 add_subdirectory(TAN/tan/tanlibrary/proj/cmake/clFFT cmake-clFFT-bin)
-
-# main
+add_subdirectory(TAN/tan/samples/proj/cmake/FileToHeader cmake-FileToHeader-bin)
+add_subdirectory(TAN/tan/samples/proj/cmake/TrueAudioVR cmake-TrueAudioVR-bin)
 add_subdirectory(TAN/tan/tanlibrary/proj/cmake/TAN cmake-TAN-bin)
 
 # fixup include paths
