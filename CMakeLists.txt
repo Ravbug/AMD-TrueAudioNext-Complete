@@ -1,26 +1,12 @@
 cmake_minimum_required(VERSION 3.17)
 
-project(TAN-complete)
+project(TrueAudio-NEXT-complete)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 enable_language(CXX)
 
-set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -D_DEBUG")
-if(NOT WIN32)
-if(APPLE)
-#SET (CMAKE_CXX_COMPILER "/usr/bin/c++")
-set(CMAKE_CXX_FLAGS_DEBUG "-Xpreprocessor -fopenmp -lomp")
-set(CMAKE_CXX_FLAGS "-Xpreprocessor -fopenmp -lomp")
-#set(CMAKE_SHARED_LINKER_FLAGS " -lomp" )
-else()
-set(CMAKE_CXX_FLAGS_DEBUG "-fopenmp")
-set(CMAKE_CXX_FLAGS "-fopenmp")
-endif()
-endif()
-
 #libraries
-find_package ( OPENMP REQUIRED )
 
 if(MSVC)
   add_definitions(/MP)
@@ -31,7 +17,12 @@ set(TAN_ROOT "${CMAKE_SOURCE_DIR}/TAN")
 set(OpenCL_INCLUDE_DIR "${TAN_ROOT}/thirdparty/OpenCL-Headers")
 set(DEFINE_AMD_OPENCL_EXTENSION ON CACHE INTERNAL "")
 
+# bundled fftw
 add_subdirectory(fftw)
+
+# bundled OpenMP
+set(OPENMP_STANDALONE_BUILD ON CACHE INTERNAL "")
+add_subdirectory(openmp)
 
 add_subdirectory(TAN/tan/samples/proj/cmake/CLKernelPreprocessor cmake-CLKernelPreprocessor-bin)
 add_subdirectory(TAN/tan/tanlibrary/proj/cmake/amf cmake-amf-bin)
@@ -42,4 +33,7 @@ add_subdirectory(TAN/tan/tanlibrary/proj/cmake/clFFT cmake-clFFT-bin)
 # main
 add_subdirectory(TAN/tan/tanlibrary/proj/cmake/TAN cmake-TAN-bin)
 
-target_link_libraries(TrueAudioNext fftw3)
+# fixup include paths
+target_include_directories(Graal2 PUBLIC "${CMAKE_BINARY_DIR}/openmp/runtime/src")
+target_link_libraries(TrueAudioNext fftw3 omp)
+target_link_libraries(Graal2 omp)
