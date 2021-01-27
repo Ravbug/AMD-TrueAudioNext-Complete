@@ -20,9 +20,16 @@ set(DEFINE_AMD_OPENCL_EXTENSION ON CACHE INTERNAL "")
 # bundled fftw
 add_subdirectory(fftw)
 
-# bundled OpenMP
-set(OPENMP_STANDALONE_BUILD ON CACHE INTERNAL "")
-add_subdirectory(openmp)
+if(NOT MSVC)
+	# bundled OpenMP
+	set(OPENMP_STANDALONE_BUILD ON CACHE INTERNAL "")
+	add_subdirectory(openmp)
+	set(OPENMP_LIB_NAME "omp")
+else()
+	# use compiler's OpenMP
+	find_package(OpenMP REQUIRED)
+	set(OPENMP_LIB_NAME "OpenMP::OpenMP_CXX")
+endif()
 
 # TAN components
 add_subdirectory(TAN/tan/samples/proj/cmake/GPUUtilities cmake-GPUUtilities-bin)
@@ -37,5 +44,5 @@ add_subdirectory(TAN/tan/tanlibrary/proj/cmake/TAN cmake-TAN-bin)
 
 # fixup include paths
 target_include_directories(Graal2 PUBLIC "${CMAKE_BINARY_DIR}/openmp/runtime/src")
-target_link_libraries(TrueAudioNext fftw3 omp)
-target_link_libraries(Graal2 omp)
+target_link_libraries(TrueAudioNext fftw3 ${OPENMP_LIB_NAME})
+target_link_libraries(Graal2 ${OPENMP_LIB_NAME})
